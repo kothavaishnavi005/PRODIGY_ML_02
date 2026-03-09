@@ -1,0 +1,30 @@
+!pip install pandas scikit-learn matplotlib
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+data = {
+    'CustomerID':[1,2,3,4,5,6,7,8,9,10],
+    'AnnualIncome':[15,16,17,18,19,20,21,22,23,24],
+    'SpendingScore':[39,81,6,77,40,76,6,94,3,72]
+}
+
+df = pd.DataFrame(data)
+
+df
+X = df[['AnnualIncome','SpendingScore']]
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit(X)
+
+df['Cluster'] = kmeans.labels_
+
+print(df)
+plt.scatter(X['AnnualIncome'], X['SpendingScore'], c=df['Cluster'], cmap='rainbow')
+
+plt.xlabel("Annual Income")
+plt.ylabel("Spending Score")
+plt.title("Customer Segmentation using K-Means")
+
+plt.show()
+print("Cluster Centers:")
+print(kmeans.cluster_centers_)
